@@ -20,7 +20,7 @@ public class NasaApiController {
     @Autowired
     NasaService nasaService;
 
-    @GetMapping("/nasaImages")
+    @GetMapping("/nasa-information")
     public ResponseEntity<CustomPageResponse> fetchData(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "20") int size) {

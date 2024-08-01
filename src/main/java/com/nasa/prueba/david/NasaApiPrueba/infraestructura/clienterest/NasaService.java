@@ -23,23 +23,18 @@ public class NasaService {
     @Autowired
     NasaRepository nasaItemRepository;
     public CustomPageResponse getNasaData(int page, int size){
+
+        //validamos los parámetros que recibimos por la URL
         if (page < 0 || size <= 0) {
-            throw new InvalidRequestException("Los valores de pagina y tamaño deben ser números mayores a 0");
+            throw new InvalidRequestException("Los valores de página y tamaño deben ser números mayores a 0");
         }
+        //Obtenemos los datos y los ordenamos descendentemente por el campo id
         Pageable pageable = PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, "id"));
         Page<NasaData> nasaItems = nasaItemRepository.findAll(pageable);
 
-        List<NasaData> nasaItemResponses = nasaItems.getContent().stream()
-                .map(nasaItem -> new NasaData(
-                        nasaItem.getId(),
-                        nasaItem.getHref(),
-                        nasaItem.getCenter(),
-                        nasaItem.getTitle(),
-                        nasaItem.getNasa_id(),
-                        nasaItem.getCreated_at()
-                ))
-                .collect(Collectors.toList());
+        List<NasaData> nasaItemResponses = nasaItems.getContent();
 
+        //Utilizamos un DTO para darle un formato más simple a la respuesta paginada
         return new CustomPageResponse(
                 nasaItemResponses,
                 nasaItems.getNumber(),
@@ -47,6 +42,6 @@ public class NasaService {
                 nasaItems.getTotalElements(),
                 nasaItems.getTotalPages()
         );
-       // return nasaItemRepository.findAll(pageable);
+
     }
 }
