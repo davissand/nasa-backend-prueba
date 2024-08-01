@@ -22,7 +22,7 @@ public class ScheduledTask {
     NasaRepository nasaRepository;
 
     //Definiendo la funcion programada, en este caso se va a ejecutar cada 60000 milisegundos, o sea cada segundo
- //@Scheduled(fixedRate = 60000)
+ @Scheduled(fixedRate = 60000)
     public void saveNasaAPIData() {
         String baseURL = "https://images-api.nasa.gov/search?q=apollo 11";
         List<NasaData> nasaItems = new ArrayList<>();
